@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+	"http://struts.apache.org/dtds/struts-2.3.dtd">  
+      
+<struts>  
+      
+	<package name="sys" namespace="/sys" extends="common">  
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result name="toClazzPage">/WEB-INF/view/sys/clazz/clazz.jsp</result>
+			<result name="toAddClazzPage">/WEB-INF/view/sys/clazz/add_clazz.jsp</result>
+			<result name="roleshow">/WEB-INF/view/sys/role/role_show.jsp</result> 
+			<result name="list">/WEB-INF/view/sys/role/role_show.jsp</result>
+			<result name="add" >/WEB-INF/view/sys/role/insert_role.jsp</result>
+			<result name="roleAd" type="chain" >roles</result>
+			<result name="updateM" type="chain" >roles</result>
+			<result name="roleUpdate">/WEB-INF/view/sys/role/update-role.jsp</result>
+			<result name="sureUpdate" type="chain" >userupdate</result>
+			<result name="addclasssuccess">/WEB-INF/view/sys/clazz/clazz.jsp</result>
+			<result name="toCourseShow">/WEB-INF/view/sys/course/course_show.jsp</result>
+			<result name="courseData">/WEB-INF/view/sys/course/data_show.jsp</result>
+			<result name="toInsertCourse">/WEB-INF/view/sys/course/insert_course.jsp</result>
+			<result name="updateQuery">/WEB-INF/view/sys/course/update_course.jsp</result>
+			<result name="success" type="chain">insert</result>
+			<result name="updateCourse" type="chain">insert</result>
+			<result name="userAdd" type="chain">userupdate</result>
+	        <result name="usershow">/WEB-INF/view/sys/user/user_show.jsp</result> 
+			<result name="powerMGR">/WEB-INF/view/sys/role/power_mgr.jsp</result>
+			
+			<result name="toPowerMgr">/WEB-INF/view/sys/role/power_mgr.jsp</result>
+			<result name="toInsertUserPage">/WEB-INF/view/sys/user/insert_user.jsp</result>
+			<result name="userupdate">/WEB-INF/view/sys/user/update_user.jsp</result>
+			<result name="toClazzInfo">/WEB-INF/view/sys/clazz/clazz_infor.jsp</result>
+			<result name="selectClazz" type="chain">clazzList</result>
+		</action>
+			
+		<action name="userupdate" class="userAction" method="findUserByCondition">
+			<result  name="usershow">/WEB-INF/view/sys/user/user_show.jsp</result>
+		</action>
+		
+		
+		<action name="roles" class="roleAction" method="list">
+			<result  name="list">/WEB-INF/view/sys/role/role_show.jsp</result>
+		</action>
+		
+		
+		<action name="insert" class="courseAction" method="toCoursePage">
+			<result name="toCourseShow">/WEB-INF/view/sys/course/course_show.jsp</result>
+		</action>
+		
+		<action name="clazzList" class="clazzAction" method="toClazzPage">
+			<result name="toClazzPage">/WEB-INF/view/sys/clazz/clazz.jsp</result>
+		</action>
+	</package>  
+    
+</struts>

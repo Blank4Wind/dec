@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+	"http://struts.apache.org/dtds/struts-2.3.dtd">  
+      
+<struts>  
+      
+	<package name="exam" namespace="/exam" extends="common"> 
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result name="planList">/WEB-INF/view/exam/exam_plan_list.jsp</result>	 		
+			<result name="toInsertPlan">/WEB-INF/view/exam/insert_exam_plan.jsp</result>	 		
+			<result name="recordsList">/WEB-INF/view/exam/exam_records_list.jsp</result>	 		
+			<result name="success" type="chain">list</result>
+			<result name="beforeUpdate">/WEB-INF/view/exam/update_exam_plan.jsp</result>	 		
+		</action>
+		
+		<action name="list" class="planAction" method="planList">
+			<result name="planList">/WEB-INF/view/exam/exam_plan_list.jsp</result>
+		</action>
+	</package>  
+    
+</struts>

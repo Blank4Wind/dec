@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="    
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- @Resource、@Autowired... -->
+	<context:annotation-config />
+	<!-- @Component、@Controller、@Servicer、@Repostory... -->
+	<!-- 自动加载构建bean -->
+	<context:component-scan base-package="com.peach.dec.core" />
+	<!-- @AspectJ -->
+	<aop:aspectj-autoproxy />
+
+	<context:property-placeholder location="classpath:config/applicationContext.properties" />
+    
+
+	<!-- 数据库连接池c3p0配置 -->
+	<!-- destroy-method=close的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用. -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="driverClass" value="${jdbc.driverClassName}"></property>
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<!--连接池中保留的最大连接数 -->
+		<property name="maxPoolSize" value="40"></property>
+		<!--连接池中保留的最小连接数。 -->
+		<property name="minPoolSize" value="1"></property>
+		<!-- 初始化时获取的连接数 -->
+		<property name="initialPoolSize" value="5"></property>
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃 -->
+		<property name="maxIdleTime" value="60"></property>
+	</bean>
+
+
+	<!-- session工厂 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描注解方式配置的hibernate类文件 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.peach.dec.core.**.entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.show_sql=${hibernate.show_sql}
+				<!-- 开启二级缓存 -->
+				hibernate.cache.use_second_level_cache=${hibernate.second_level_cache}
+				<!-- 缓存提供者 -->
+				hibernate.cache.region.factory_class=${hibernate.cache.region.factory_class}
+				<!-- 开启查询缓存 -->
+				hibernate.cache.use_query_cache=${hibernate.cache.use_query_cache}
+			</value>
+		</property>
+	</bean>
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 配置事务通知属性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 定义事务传播属性 -->
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="new*" propagation="REQUIRED" />
+			<tx:method name="set*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="change*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="load*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置事务切面 -->
+	<aop:config>
+		<aop:pointcut id="serviceOperation"
+			expression="execution(* com.peach.dec.core.**.service.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
+	</aop:config>
+
+</beans>

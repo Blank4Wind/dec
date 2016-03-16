@@ -1,0 +1,38 @@
+.title {
+	white-space: pre;
+	line-height: 30px;
+}
+
+.form-control {
+	width: 400px;
+}
+
+.row {
+	margin-top: 10px;
+}
+
+#memo {
+	height: 150px;
+}
+b{
+	color:red;
+	font-size: 14px;
+}
+
+.box-tools{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.box{
+  box-shadow: none;
+}
+.main_content_wrap{
+	margin-left: 30px;
+}
+.select{
+	margin-left: 30px;
+}
+*{
+	font-family: 微软雅黑;
+	font-size: 12px;
+}

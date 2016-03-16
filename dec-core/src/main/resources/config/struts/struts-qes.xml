@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+	"http://struts.apache.org/dtds/struts-2.3.dtd">  
+      
+<struts>  
+      
+	<package name="qes" namespace="/qes" extends="common"> 
+	 	<action name="*_*" class="{1}Action" method="{2}">
+	 		<result name="qestionlist">/WEB-INF/view/qes/qestion_list.jsp</result>
+	 		<result name="toInsertQestionPage">/WEB-INF/view/qes/insert_qestion.jsp</result>
+	 		<result name="insertQestion" type="chain">qestion</result>
+	 		<result name="qestionUpdate">/WEB-INF/view/qes/update_qestion.jsp</result>
+	 		<result name="sureUpdate" type="chain" >qestion</result>
+	 		<result name="toQesExamPaper">/WEB-INF/view/qes/qes_exam_paper.jsp</result>
+	 		<result name="toAddQesExamPaper">/WEB-INF/view/qes/add_qes_exam_paper.jsp</result>
+	 		<result name="transPaper">/WEB-INF/view/qes/trans_exam_page.jsp</result>
+	 		<result name="viewExamPaper">/WEB-INF/view/qes/view_exam_paper.jsp</result>
+	 		
+	 	</action>
+	 	
+	 	<action name="qestion" class="qestionsAction" method="qestionList">
+	 	    <result name="qestionlist">/WEB-INF/view/qes/qestion_list.jsp</result>
+	 	</action>
+	</package>  
+    
+</struts>

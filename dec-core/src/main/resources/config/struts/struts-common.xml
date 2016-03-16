@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 开发者模式 -->
+	<!--<constant name="struts.devMode" value="true"></constant> -->
+	<!-- 动态调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<!-- 取消struts默认ui主题 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+
+	<package name="common" namespace="/common" extends="struts-default">
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<interceptor name="validate"
+				class="com.peach.dec.core.common.action.CustomInterceptor"></interceptor>
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="validate"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<!-- 默认的action -->
+		<default-action-ref name="index" />
+		<!-- 全局转向 -->
+		<global-results>
+			<result name="error">/WEB-INF/view/common/error/error.jsp</result>
+			<result name="exception">/WEB-INF/view/common/error/exception.jsp</result>
+			<result name="tologinpage2">/index.jsp</result>
+		</global-results>
+		<!-- 全局异常映射 -->
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		<!-- 公共模块 -->
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result name="login">/WEB-INF/view/sys/user/main.jsp</result>
+			<result name="beforeUpdate">/WEB-INF/view/sys/user/user_examine.jsp</result>
+			<result name="tologinpage">/index.jsp</result>
+			<result name="goBackUpReduction">/WEB-INF/view/common/backup-reduction.jsp
+			</result>
+			<result name="toUpdatePwd">/WEB-INF/view/sys/user/user_pwd.jsp</result>
+		</action>
+	</package>
+</struts>
